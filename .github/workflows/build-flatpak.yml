@@ -2,8 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main]  # Triggers the workflow on pushes to the main branch
   pull_request:
+    branches: [main]  # Triggers the workflow on pull requests targeting the main branch
 
 jobs:
   flatpak:
@@ -13,17 +14,17 @@ jobs:
       image: bilelmoussaoui/flatpak-github-actions:gnome-44
       options: --privileged
     steps:
-    - uses: actions/checkout@v4
-    
-    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-      id: flatpak_builder
-      with:
-        bundle: Telegram.TelegramDesktop.Store.flatpak
-        manifest-path: Telegram.TelegramDesktop.Store.yml
-        cache-key: flatpak-builder-${{ github.sha }}
+      - uses: actions/checkout@v4
+      
+      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        id: flatpak_builder
+        with:
+          bundle: Telegram.TelegramDesktop.Store.flatpak
+          manifest-path: Telegram.TelegramDesktop.Store.yml
+          cache-key: flatpak-builder-${{ github.sha }}
 
-    - name: Upload Flatpak Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: Telegram.TelegramDesktop.Store.flatpak
-        path: Telegram.TelegramDesktop.Store.flatpak
+      - name: Upload Flatpak Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Telegram.TelegramDesktop.Store.flatpak
+          path: Telegram.TelegramDesktop.Store.flatpak
