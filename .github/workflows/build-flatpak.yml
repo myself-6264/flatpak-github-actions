@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-44
+      options: --privileged
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      id: flatpak_builder
+      with:
+        bundle: Telegram.TelegramDesktop.Store.flatpak
+        manifest-path: Telegram.TelegramDesktop.Store.yml
+        cache-key: flatpak-builder-${{ github.sha }}
+
+    - name: Upload Flatpak Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Telegram.TelegramDesktop.Store.flatpak
+        path: Telegram.TelegramDesktop.Store.flatpak
