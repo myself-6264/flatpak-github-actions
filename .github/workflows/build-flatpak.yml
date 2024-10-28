@@ -2,9 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [main]  # Triggers the workflow on pushes to the main branch
+    branches:
+      - main  # Triggers on pushes to the main branch
   pull_request:
-    branches: [main]  # Triggers the workflow on pull requests targeting the main branch
+    branches:
+      - main  # Triggers on pull requests targeting the main branch
 
 jobs:
   flatpak:
