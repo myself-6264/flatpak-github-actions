@@ -18,12 +18,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-        id: flatpak_builder
-        with:
-          bundle: Telegram.TelegramDesktop.Store.flatpak
-          manifest-path: Telegram.TelegramDesktop.Store.yml
-          cache-key: flatpak-builder-${{ github.sha }}
+      - name: Build Flatpak
+        run: |
+          flatpak-builder --force-clean --repo=repo build-dir Telegram.TelegramDesktop.Store.yml
+
+      - name: Package Flatpak
+        run: |
+          flatpak-builder --repo=repo --force-clean --create-gpg-signature Telegram.TelegramDesktop.Store.flatpak build-dir Telegram.TelegramDesktop.Store.yml
 
       - name: Upload Flatpak Artifact
         uses: actions/upload-artifact@v3
