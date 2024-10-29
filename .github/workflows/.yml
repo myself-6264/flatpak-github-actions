@@ -2,7 +2,9 @@ on:
   push:
     branches: [main]
   pull_request:
+
 name: CI
+
 jobs:
   flatpak:
     name: "Flatpak"
@@ -11,12 +13,11 @@ jobs:
       image: bilelmoussaoui/flatpak-github-actions:gnome-44
       options: --privileged
     steps:
-    - uses: actions/checkout@v4
-    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-      with:
-        bundle: app.flatpak
-        manifest-path: Telegram.TelegramDesktop.Store.yml
-        cache-key: flatpak-builder-${{ github.sha }}
-        upload-artifact: true
-        arch: x86_64
-        
+      - uses: actions/checkout@v4
+      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: app.flatpak
+          manifest-path: Telegram.TelegramDesktop.Store.yml
+          cache-key: flatpak-builder-${{ github.sha }}
+          upload-artifact: true
+          arch: x86_64
