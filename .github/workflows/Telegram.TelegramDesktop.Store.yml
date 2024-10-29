@@ -1,0 +1,37 @@
+id: "Telegram.TelegramDesktop.Store"
+runtime: "org.freedesktop.Platform"
+runtime-version: "22.08"
+sdk: "org.freedesktop.Sdk"
+command: "64gram"
+finish-args:
+  - "--share=network"
+  - "--socket=x11"
+  - "--socket=wayland"
+  - "--device=dri"
+  - "--filesystem=host"
+
+modules:
+  - name: "qt5"
+    buildsystem: "cmake"
+    config-opts:
+      - "-DQT_DEFAULT_MAJOR_VERSION=5"
+    sources:
+      - type: "git"
+        url: "https://github.com/qt/qt5.git"
+        branch: "6.8"
+
+  - name: "ada"
+    buildsystem: "cmake"
+    config-opts:
+      - "-DCMAKE_MODULE_PATH=/app/share/cmake/Modules"
+    sources:
+      - type: "git"
+        url: "https://github.com/AdaCore/gnat-llvm.git"
+        branch: "main"
+
+  - name: "64gram"
+    buildsystem: "cmake"
+    sources:
+      - type: "git"
+        url: "https://github.com/TDesktop-x64/tdesktop.git"
+        branch: "dev"
