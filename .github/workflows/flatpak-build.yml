@@ -1,0 +1,21 @@
+name: Flatpak Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and deploy Flatpak
+        uses: flatpak/action@v1
+        with:
+          repository: myself-6264/flatpak-github-actions
+          app-id: org.64gram.Telegram
+          build-path: .
+          commit-message: "Automated build"
