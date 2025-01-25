@@ -3,7 +3,7 @@ name: Flatpak Build
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   build:
@@ -16,6 +16,15 @@ jobs:
         uses: flatpak/action@v1
         with:
           repository: myself-6264/flatpak-github-actions
-          app-id: org.64gram.Telegram
+          app-id: org.example.MyApp.Devel
           build-path: .
           commit-message: "Automated build"
+          manifest-path: org.64gram.Telegram.yml
+          branch: dev
+          filename: my-telegram-app.flatpak
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-telegram-app
+          path: my-telegram-app.flatpak
