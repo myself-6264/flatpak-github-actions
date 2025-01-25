@@ -1,24 +1,34 @@
-app-id: org.64gram.Telegram
-runtime: org.gnome.Platform
-runtime-version: '44'
-sdk: org.gnome.Sdk
-command: tdesktop
+runtime: org.kde.Platform
+runtime-version: '5.15'
+sdk: org.kde.Sdk
+command: telegram-desktop
 
 modules:
-  - name: tdesktop
+  - name: telegram-desktop
     buildsystem: cmake
-    build-commands:
-      - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app .
-      - make install
     sources:
       - type: git
-        url: https://github.com/myself-6264/tdesktop.git
-        branch: main
-    dependencies:
-      - openssl
-      - libssl
-      - libcrypto
+        url: https://github.com/telegramdesktop/tdesktop
+        branch: master
+
+    build-options:
+      env:
+        - CMAKE_BUILD_TYPE=RelWithDebInfo
+        - CMAKE_INSTALL_PREFIX=/app
+      install-commands:
+        - mkdir -p /app/bin
+        - install -Dm 755 Telegram/Telegram /app/bin/telegram-desktop
+
+    post-install:
+      - install -Dm 644 telegram.desktop /app/share/applications/telegram.desktop
 
 finish-args:
-  - --env=GTK_PATH=/app/lib/gtk-3.0
-  - --env=GTK_DATA_PREFIX=/app/share/gtk-3.0
+  - --share=network
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --socket=pulseaudio
+  - --filesystem=home
+  - --filesystem=xdg-run/dconf
+  - --env=DCONF_USER_CONFIG_DIR=.config/dconf
+  - --env=QT_QPA_PLATFORMTHEME=qt5ct
