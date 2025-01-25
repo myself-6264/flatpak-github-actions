@@ -1,0 +1,24 @@
+app-id: org.64gram.Telegram
+runtime: org.gnome.Platform
+runtime-version: '44'
+sdk: org.gnome.Sdk
+command: tdesktop
+
+modules:
+  - name: tdesktop
+    buildsystem: cmake
+    build-commands:
+      - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app .
+      - make install
+    sources:
+      - type: git
+        url: https://github.com/myself-6264/tdesktop.git
+        branch: main
+    dependencies:
+      - openssl
+      - libssl
+      - libcrypto
+
+finish-args:
+  - --env=GTK_PATH=/app/lib/gtk-3.0
+  - --env=GTK_DATA_PREFIX=/app/share/gtk-3.0
